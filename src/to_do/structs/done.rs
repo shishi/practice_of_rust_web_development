@@ -8,8 +8,8 @@ pub struct Done {
 }
 
 impl Done {
-    pub fn new(input_title: &str) -> Done {
-        let base: Base = Base::new(input_title, "done");
+    pub fn new(input_title: String) -> Done {
+        let base: Base = Base::new(input_title, String::from("done"));
         
         return Done { super_struct: base }
     }
