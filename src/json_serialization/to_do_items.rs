@@ -12,6 +12,8 @@ pub struct ToDoItems {
     pub done_item_count: i8,
 }
 
+
+
 impl ToDoItems {
     pub fn new(input_items: Vec<ItemTypes>) -> ToDoItems {
         let mut pending_array_buffer = Vec::new();
