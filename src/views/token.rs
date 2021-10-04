@@ -8,7 +8,7 @@ fn check_password(password: String) -> Result<String, &'static str> {
 }
 
 fn extract_header_token(request: &ServiceRequest) -> Result<String, &'static str> {
-    match request.headers().get("user_token") {
+    match request.headers().get("user-token") {
         Some(token) => {
             match token.to_str(){
                 Ok(processed_pasword) => Ok(String::from(processed_pasword)),
