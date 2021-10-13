@@ -24,10 +24,10 @@ impl JwtToken {
 
     pub fn decode(encoded_token: String) -> Result<JwtToken, &'static str> {
         let key: Hmac<Sha256> = Hmac::new_varkey(b"secret").unwrap();
-        let token_str = encoded_token.as_str();
+        let token_str: &str = encoded_token.as_str();
+
         let token: Result<Token<Header, BTreeMap<String, i32>, _>, _> =
             VerifyWithKey::verify_with_key(token_str, &key);
-
         match token {
             Ok(token) => {
                 let _header = token.header();
@@ -37,7 +37,7 @@ impl JwtToken {
                     body: encoded_token,
                 });
             }
-            Err(_) => return Err("Could not decode token"),
+            Err(_) => return Err("Could not decode"),
         }
     }
 }
