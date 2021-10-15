@@ -1,4 +1,5 @@
 use super::utils::return_state;
+use crate::auth::jwt::JwtToken;
 use crate::database::establish_connection;
 use crate::diesel;
 use crate::models::item::item::Item;
@@ -10,6 +11,7 @@ use diesel::prelude::*;
 pub async fn create(req: HttpRequest) -> impl Responder {
     let title = req.match_info().get("title").unwrap().to_string();
     let title_ref = title.clone();
+    let token = JwtToken::decode_from_request(req).unwrap();
 
     let connection = establish_connection();
     let items = to_do::table
@@ -25,5 +27,5 @@ pub async fn create(req: HttpRequest) -> impl Responder {
             .execute(&connection);
     }
 
-    return return_state();
+    return return_state(&token.user_id);
 }

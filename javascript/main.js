@@ -1,5 +1,5 @@
 if (localStorage.getItem("user-token") == null) {
-  window.location.replace(document.location.origin + "/login/");
+  window.location.replace(document.location.origin + "/login");
 }
 
 function renderItems(items, processType, elementId, processFunction) {
@@ -63,7 +63,7 @@ function apiCall(url, method) {
       }
     }
   });
-  xhr.open(method, url);
+  xhr.open(method, "/api/v1" + url);
   xhr.setRequestHeader("content-type", "application/json");
   xhr.setRequestHeader("user-token", localStorage.getItem("user-token"));
   return xhr;
