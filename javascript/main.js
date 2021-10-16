@@ -1,5 +1,7 @@
 if (localStorage.getItem("user-token") == null) {
   window.location.replace(document.location.origin + "/login");
+} else {
+  getItems();
 }
 
 function renderItems(items, processType, elementId, processFunction) {
@@ -40,7 +42,7 @@ function apiCall(url, method) {
   xhr.addEventListener("readystatechange", function () {
     if (this.readyState === this.DONE) {
       if (this.status === 401) {
-        window.location.replace(document.location.origin + "/login/");
+        window.location.replace(document.location.origin + "/login");
       } else {
         renderItems(
           JSON.parse(this.responseText)["pending_items"],
@@ -93,8 +95,6 @@ function getItems() {
   let call = apiCall("/item/get", "GET");
   call.send();
 }
-
-getItems();
 
 document.getElementById("create-button").addEventListener("click", createItem);
 

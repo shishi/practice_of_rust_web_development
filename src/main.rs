@@ -5,6 +5,8 @@ extern crate dotenv;
 use actix_service::Service;
 use actix_web::{App, HttpResponse, HttpServer};
 use futures::future::{ok, Either};
+use log;
+use env_logger;
 
 mod auth;
 mod database;
@@ -18,12 +20,11 @@ mod views;
 
 #[actix_rt::main]
 async fn main() -> std::io::Result<()> {
+    env_logger::init();
     HttpServer::new(|| {
         let app = App::new()
             .wrap_fn(|req, srv| {
-                // srv => routing
-                // req => service request
-
+                let request_url = String::from(*&req.uri().path().clone());
                 let passed: bool;
 
                 if *&req.path().contains("/item/") {
@@ -45,7 +46,11 @@ async fn main() -> std::io::Result<()> {
                         req.into_response(HttpResponse::Unauthorized().finish().into_body())
                     )),
                 };
-                end_result
+                async move {
+                    let result = end_result.await?;
+                    log::info!("{} -> {}", request_url, &result.status());
+                    Ok(result)
+                }
             })
             .configure(views::views_factory);
         return app;
