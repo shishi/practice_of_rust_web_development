@@ -4,17 +4,15 @@ extern crate dotenv;
 
 use actix_service::Service;
 use actix_web::{App, HttpResponse, HttpServer};
+use env_logger;
 use futures::future::{ok, Either};
 use log;
-use env_logger;
 
 mod auth;
 mod database;
 mod json_serialization;
 mod models;
-mod processes;
 mod schema;
-mod state;
 mod to_do;
 mod views;
 

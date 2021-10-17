@@ -1,7 +1,4 @@
 use super::base::Base;
-use super::traits::get::Get;
-use super::traits::delete::Delete;
-use super::traits::edit::Edit;
 
 pub struct Done {
     pub super_struct: Base,
@@ -15,6 +12,18 @@ impl Done {
     }
 }
 
-impl Get for Done {}
-impl Delete for Done {}
-impl Edit for Done {}
+#[cfg(test)]
+mod done_test {
+    use super::Done;
+
+    #[test]
+    fn new() {
+        let expected_status = String::from("done");
+        let title = String::from("excel date");
+        let expected_title = String::from("excel date");
+        let done = Done::new(title);
+
+        assert_eq!(expected_status, done.super_struct.status);
+        assert_eq!(expected_title, done.super_struct.title);
+    }
+}
